@@ -1,6 +1,6 @@
 library(tseries)
 library(forecast)
-library(ggplot)
+library(ggplot2)
 
 # Load the data
 data <- read.csv("Case_study.csv")
