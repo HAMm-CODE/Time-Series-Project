@@ -33,6 +33,37 @@ acf(stationary_series, main="ACF for q")
 pacf(stationary_series, main="PACF for p")
 
 #step 2
+results <- data.frame()
+
+for(p in 1:4){
+  for(q in 1:4){
+    
+    model <- Arima(y, order=c(p,1,q))
+    
+    results <- rbind(results,
+                     data.frame(p=p,
+                                q=q,
+                                AIC=AIC(model),
+                                BIC=BIC(model)))
+  }
+}
+
+print(results)
+
+
+results[order(results$AIC), ]
+results[order(results$BIC), ]
+
+summary(model)
+
+#Step 3: Diagnostic tests with in-sample data
+
+model1 <- Arima(y, order=c(2,1,2))
+model2 <- Arima(y, order=c(3,1,2))
+model3 <- Arima(y, order=c(4,1,1))
+res <- residuals(model3)
+
+Box.test(res, lag = 10, type = "Ljung-Box")
 
 
 
