@@ -57,13 +57,33 @@ results[order(results$BIC), ]
 summary(model)
 
 #Step 3: Diagnostic tests with in-sample data
-
+#Do the tests for all the 3 best models
 model1 <- Arima(y, order=c(2,1,2))
 model2 <- Arima(y, order=c(3,1,2))
 model3 <- Arima(y, order=c(4,1,1))
 res <- residuals(model3)
 
 Box.test(res, lag = 10, type = "Ljung-Box")
+
+par(mfrow = c(1, 2))
+
+res <- residuals(model3)
+
+acf(res)
+pacf(res)
+
+#histogram
+res <- residuals(model1)
+hist(res, probability = TRUE)
+lines(density(res))
+
+#qq plot
+qqnorm(res)
+qqline(res, col = "red")
+
+shapiro.test(res)
+
+
 
 
 
