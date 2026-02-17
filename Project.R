@@ -27,18 +27,19 @@ print(adf_test1)
 adf_test2 <- adf.test(diff(train_data, differences = 2))
 print(adf_test2)
 
+#Analysis of (p,q). I use the first differencing order to analyse p and q
 stationary_series <- diff(train_data, differences = 1)
 par(mfrow=c(1,2))
 acf(stationary_series, main="ACF for q")
 pacf(stationary_series, main="PACF for p")
 
-#step 2
+#step 2: Estimation and selection of ARIMA Models
 results <- data.frame()
 
 for(p in 1:4){
   for(q in 1:4){
     
-    model <- Arima(y, order=c(p,1,q))
+    model <- Arima(train_data, order=c(p,1,q))
     
     results <- rbind(results,
                      data.frame(p=p,
@@ -73,15 +74,26 @@ acf(res)
 pacf(res)
 
 #histogram
-res <- residuals(model1)
+par(mfrow = c(1, 3))
+res <- residuals(model3)
 hist(res, probability = TRUE)
 lines(density(res))
 
 #qq plot
+res <- residuals(model1)
 qqnorm(res)
 qqline(res, col = "red")
 
+#Shapiro test
+res <- residuals(model3)
 shapiro.test(res)
+
+#plot for best model
+par(mfrow = c(1, 1))
+plot(train_data, main="Original vs Fitted Model")
+lines(fitted(model1), col="red")
+
+#Step 4: Forecast with out-of-sample data
 
 
 
