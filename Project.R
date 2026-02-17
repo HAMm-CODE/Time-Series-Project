@@ -1,3 +1,4 @@
+
 library(tseries)
 library(forecast)
 library(ggplot2)
@@ -123,9 +124,43 @@ legend("topleft",
        col=c("black","red"),
        lty=2)
 
-
 #Step 4: Forecast with out-of-sample data
 
+best_model <- Arima(train_data, order=c(3,1,1))
+
+forecast_10 <- forecast(best_model, h=10, level=95)
+plot(forecast_10, main="10-Step Forecast (ARIMA(3,1,1))")
+
+
+forecast_25 <- forecast(best_model, h=25, level=95)
+plot(forecast_25, main="25-Step Forecast (ARIMA(3,1,1))")
+
+
+forecast_100 <- forecast(best_model, h=100, level=95)
+plot(forecast_100, main="100-Step Forecast (ARIMA(3,1,1))")
+
+test_data <- y[101:200]
+
+#MSE for h = 10
+pred_10 <- forecast(best_model, h=10)$mean
+actual_10 <- test_data[1:10]
+
+mse_10 <- mean((actual_10 - pred_10)^2)
+mse_10
+
+#MSE for h = 25
+pred_25 <- forecast(best_model, h=25)$mean
+actual_25 <- test_data[1:25]
+
+mse_25 <- mean((actual_25 - pred_25)^2)
+mse_25
+
+#MSE for h = 100
+pred_100 <- forecast(best_model, h=100)$mean
+actual_100 <- test_data[1:100]
+
+mse_100 <- mean((actual_100 - pred_100)^2)
+mse_100
 
 
 
