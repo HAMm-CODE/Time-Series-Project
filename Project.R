@@ -51,47 +51,78 @@ for(p in 1:4){
 
 print(results)
 
-
+#Sort the results to take in ascending order to take the smallest AIC and BIC
 results[order(results$AIC), ]
 results[order(results$BIC), ]
 
-summary(model)
+model1 <- Arima(train_data, order=c(3,1,1))
+model2 <- Arima(train_data, order=c(3,1,2))
+model3 <- Arima(train_data, order=c(4,1,1))
+#using summary to get the estimates of the 3 models
+summary(model1)
+summary(model2)
+summary(model3)
+
 
 #Step 3: Diagnostic tests with in-sample data
-#Do the tests for all the 3 best models
-model1 <- Arima(y, order=c(2,1,2))
-model2 <- Arima(y, order=c(3,1,2))
-model3 <- Arima(y, order=c(4,1,1))
-res <- residuals(model3)
+# Ljung-Box test for first 10 lags
+Box.test(residuals(model1), lag = 10, type = "Ljung-Box")
+Box.test(residuals(model2), lag = 10, type = "Ljung-Box")
+Box.test(residuals(model3), lag = 10, type = "Ljung-Box")
 
-Box.test(res, lag = 10, type = "Ljung-Box")
+#Now we plot ACF and PACF of residuals
+par(mfrow = c(1,2))
 
-par(mfrow = c(1, 2))
+acf(residuals(model1), main="ACF Residuals (3,1,1)")
+pacf(residuals(model1), main="PACF Residuals (3,1,1)")
 
-res <- residuals(model3)
+acf(residuals(model2), main="ACF Residuals (3,1,2)")
+pacf(residuals(model2), main="PACF Residuals (3,1,2)")
 
-acf(res)
-pacf(res)
+acf(residuals(model3), main="ACF Residuals (4,1,1)")
+pacf(residuals(model3), main="PACF Residuals (4,1,1)")
+
 
 #histogram
-par(mfrow = c(1, 3))
-res <- residuals(model3)
-hist(res, probability = TRUE)
-lines(density(res))
+par(mfrow = c(1,3))
 
-#qq plot
-res <- residuals(model1)
-qqnorm(res)
-qqline(res, col = "red")
+hist(residuals(model1), probability=TRUE, main="Histogram (3,1,1)")
+lines(density(residuals(model1)))
 
-#Shapiro test
-res <- residuals(model3)
-shapiro.test(res)
+hist(residuals(model2), probability=TRUE, main="Histogram (3,1,2)")
+lines(density(residuals(model2)))
+
+hist(residuals(model3), probability=TRUE, main="Histogram (4,1,1)")
+lines(density(residuals(model3)))
+
+#qq plots
+par(mfrow = c(1,3))
+
+qqnorm(residuals(model1), main="QQ (3,1,1)")
+qqline(residuals(model1), col="red")
+
+qqnorm(residuals(model2), main="QQ (3,1,2)")
+qqline(residuals(model2), col="red")
+
+qqnorm(residuals(model3), main="QQ (4,1,1)")
+qqline(residuals(model3), col="red")
+
+#Shapiro-Wilk Normality Test
+shapiro.test(residuals(model1))
+shapiro.test(residuals(model2))
+shapiro.test(residuals(model3))
+
 
 #plot for best model
-par(mfrow = c(1, 1))
-plot(train_data, main="Original vs Fitted Model")
+par(mfrow=c(1,1))
+
+plot(train_data, main="Original vs Fitted ARIMA(3,1,1)")
 lines(fitted(model1), col="red")
+legend("topleft",
+       legend=c("Original","Fitted"),
+       col=c("black","red"),
+       lty=2)
+
 
 #Step 4: Forecast with out-of-sample data
 
