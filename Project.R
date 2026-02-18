@@ -1,24 +1,27 @@
-
+#libraries used
 library(tseries)
 library(forecast)
 library(ggplot2)
 
-
+#loaded data from the cs file with my column as V82
 data <- read.csv("Case_study.csv")
 y <- data$V82
 
-
+#seperated the data points
 train_data <- y[1:100]
 test_data <- y[101:200]
 
+#plot for Yt train data only
 plot.ts(train_data, main="Time Series Plot of Yt", ylab="Value", col="blue")
 
+#autocorrelation function of Yt, ∇Yt, ∇2Yt
 acf(train_data, main="ACF of Yt")
 
 acf(diff(train_data, differences = 1), main="ACF of ∇Yt")
 
 acf(diff(train_data, differences = 2), main="ACF of ∇2Yt")
 
+#Adf test
 adf_test <- adf.test(train_data)
 print(adf_test)
 
@@ -26,6 +29,8 @@ adf_test1 <- adf.test(diff(train_data, differences = 1))
 print(adf_test1)
 
 adf_test2 <- adf.test(diff(train_data, differences = 2))
+print(adf_test)
+print(adf_test1)
 print(adf_test2)
 
 #Analysis of (p,q). I use the first differencing order to analyse p and q
@@ -84,7 +89,7 @@ acf(residuals(model3), main="ACF Residuals (4,1,1)")
 pacf(residuals(model3), main="PACF Residuals (4,1,1)")
 
 
-#histogram
+#histograma of the residual models
 par(mfrow = c(1,3))
 
 hist(residuals(model1), probability=TRUE, main="Histogram (3,1,1)")
@@ -163,6 +168,6 @@ mse_100 <- mean((actual_100 - pred_100)^2)
 mse_100
 
 
-
+#Bonus question
 
 
