@@ -168,6 +168,4 @@ mse_100 <- mean((actual_100 - pred_100)^2)
 mse_100
 
 
-#Bonus question
-
 
