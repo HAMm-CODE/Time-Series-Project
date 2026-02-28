@@ -33,7 +33,7 @@ print(adf_test)
 print(adf_test1)
 print(adf_test2)
 
-#Analysis of (p,q). I use the first differencing order to analyse p and q
+                                                                                                  #Analysis of (p,q). I use the first differencing order to analyse p and q
 stationary_series <- diff(train_data, differences = 1)
 par(mfrow=c(1,2))
 acf(stationary_series, main="ACF for q")
@@ -89,7 +89,7 @@ acf(residuals(model3), main="ACF Residuals (4,1,1)")
 pacf(residuals(model3), main="PACF Residuals (4,1,1)")
 
 
-#histograma of the residual models
+#histogram of the residual models
 par(mfrow = c(1,3))
 
 hist(residuals(model1), probability=TRUE, main="Histogram (3,1,1)")
@@ -127,7 +127,7 @@ lines(fitted(model1), col="red")
 legend("topleft",
        legend=c("Original","Fitted"),
        col=c("black","red"),
-       lty=2)
+       lty=1)
 
 #Step 4: Forecast with out-of-sample data
 
