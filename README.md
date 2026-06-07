@@ -33,7 +33,7 @@ The project contains implementations in both R and Python, leveraging the streng
 
 Through rigorous comparison and experimentation, I discovered that:
 
-1. **Foundation Models (TimesFM) Out-of-the-Box Performance**: Foundation models demonstrate superior performance without extensive tuning, showcasing their ability to leverage pre-trained knowledge on large-scale time series datasets.
+1. **Foundation Models (TimesFM) Out-of-the-Box Performance**: Foundation models demonstrate superior performance without extensive tuning, showcasing their ability to leverage pre-trained knowledge.
 
 2. **Machine Learning Model Optimization**: However, when optimized properly, traditional machine learning models like ARIMA actually outperform foundation models. The key lies in:
    - Proper hyperparameter tuning
@@ -42,6 +42,14 @@ Through rigorous comparison and experimentation, I discovered that:
    - Domain-specific optimization strategies
 
 3. **Practical Implications**: While ARIMA models require more careful calibration and domain expertise, the performance gains justify the effort for production forecasting systems where accuracy is critical.
+
+### Model Comparison: TimesFM vs ARIMA
+
+The following visualization compares the performance of TimesFM and ARIMA models based on **Mean Squared Error (MSE)**:
+
+![TimesFM vs ARIMA Comparison](timesfm_vs_arima.png)
+
+*Comparison based on Mean Squared Error (MSE) metric across different time series datasets and forecasting horizons.*
 
 ---
 
